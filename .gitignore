@@ -1,0 +1,15 @@
+# PowerShell
+*.ps1xml
+*.log
+*.clixml
+*.pfx
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test Results
+TestResults/
+TestResults.xml

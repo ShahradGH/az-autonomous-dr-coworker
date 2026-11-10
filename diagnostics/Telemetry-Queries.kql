@@ -1,0 +1,42 @@
+// Azure Monitor / Log Analytics Forensic Telemetry Query
+// Real-time tracking of Cosmos DB cross-region replication lag & ExpressRoute route drops
+// Used as the deterministic gate before staging automated DR traffic shifts
+
+let MaxAllowedLagSeconds = 30.0;
+let TimeWindow = 5m;
+
+// 1. Evaluate Cosmos DB Replication Latency between UK South (Primary) and UK West (Standby)
+let ReplicationHealth = AzureMetrics
+| where TimeGenerated >= ago(TimeWindow)
+| where ResourceProvider == "MICROSOFT.DOCUMENTDB"
+| where MetricName == "ReplicationLatency"
+| summarize 
+    AverageLagSeconds = avg(Average) / 1000.0,
+    MaxLagSeconds = max(Maximum) / 1000.0,
+    SampleCount = count()
+    by Resource, Region = tostring(split(ResourceId, "/")[-1])
+| extend RpoCeilingBreached = MaxLagSeconds > MaxAllowedLagSeconds;
+
+// 2. Correlate with ExpressRoute gateway and Network Rule connection drops
+let RouteHealth = AzureDiagnostics
+| where TimeGenerated >= ago(TimeWindow)
+| where Category in ("AzureFirewallNetworkRule", "ExpressRouteGatewayLogs", "NetworkSecurityGroupRuleCounter")
+| where msg_s has "Dropped" or msg_s has "Asymmetric" or msg_s has "Reset"
+| summarize DroppedPacketCount = count() by bin(TimeGenerated, 1m);
+
+// 3. Synthesize the Automated Cutover Verdict
+ReplicationHealth
+| extend TotalDroppedPackets = toscalar(RouteHealth | summarize sum(DroppedPacketCount))
+| extend CutoverVerdict = case(
+    RpoCeilingBreached, "VETO_RPO_LAG_EXCEEDED",
+    TotalDroppedPackets > 100, "VETO_ASYMMETRIC_ROUTE_DROPS",
+    "STAGE_FOR_RESILIENCE_ARCHITECT_SIGN_OFF"
+)
+| project 
+    Resource, 
+    Region, 
+    MaxLagSeconds, 
+    RpoCeilingBreached, 
+    TotalDroppedPackets, 
+    CutoverVerdict
+| order by MaxLagSeconds desc
