@@ -1,0 +1,7 @@
+framework:
+  - bicep
+  - terraform
+soft_fail: false
+check:
+  - CKV_AZURE_1
+  - CKV_AZURE_2
