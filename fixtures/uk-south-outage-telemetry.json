@@ -1,0 +1,8 @@
+{
+  "incidentId": "INC-UKS-0412",
+  "primaryRegion": "uksouth",
+  "standbyRegion": "ukwest",
+  "cosmosReplicationLagSeconds": 38.4,
+  "privateDnsSpokeSymmetric": false,
+  "expectedDecision": "VETO_FAILOVER_SPLIT_BRAIN_RISK"
+}

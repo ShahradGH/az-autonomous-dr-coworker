@@ -1,0 +1,4 @@
+// Private DNS Spoke Resolution Symmetry Check
+AzureDiagnostics
+| where Category == "AZFDHealthProbeLog"
+| summarize FailedProbes = countif(httpStatusCode >= 500) by bin(TimeGenerated, 5m), backendHost_s
