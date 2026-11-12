@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" style="background:#0b1120; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="dropGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="900" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1440" height="900" fill="none" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Header -->
+  <rect x="30" y="24" width="1380" height="76" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5" filter="url(#dropGlow)"/>
+  <text x="60" y="55" fill="#f8fafc" font-size="19" font-weight="700" letter-spacing="0.5">CROSS-REGION DR FAILOVER: PRE-FLIGHT VERIFICATION &amp; SOVEREIGN VETO FLOW</text>
+  <text x="60" y="80" fill="#94a3b8" font-size="13" font-weight="500">Deterministic Failure Mitigation: Health Probe Timeout -&gt; KQL Lag Check -&gt; Route Assert -&gt; Architect Gate</text>
+  <rect x="1200" y="44" width="180" height="34" rx="4" fill="#0369a1" fill-opacity="0.2" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="1290" y="66" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">OFFICIAL AZURE STENCIL</text>
+
+  <!-- 4 Step Columns -->
+  
+    <g transform="translate(0, 0)" filter="url(#dropGlow)">
+      <rect x="30" y="120" width="320" height="740" rx="8" fill="#0c1e38" stroke="#ef4444" stroke-width="1.5"/>
+      <rect x="46" y="136" width="288" height="32" rx="4" fill="#991b1b"/>
+      <text x="190" y="158" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">PHASE 01: SENSING</text>
+      <text x="50" y="196" fill="#38bdf8" font-size="14" font-weight="700">01: Health Probe Dropout</text>
+      <text x="50" y="220" fill="#cbd5e1" font-size="11.5">&#x2022; T+00m: Regional storage latency spikes in UK South</text>
+<text x="50" y="244" fill="#cbd5e1" font-size="11.5">&#x2022; Azure Front Door marks primary origin unhealthy</text>
+<text x="50" y="268" fill="#cbd5e1" font-size="11.5">&#x2022; Container Apps ingress probes return HTTP 504</text>
+<text x="50" y="292" fill="#cbd5e1" font-size="11.5">&#x2022; DR Co-Worker awakens in isolated control subnet</text>
+
+      
+      <rect x="46" y="750" width="288" height="86" rx="6" fill="#0b1329" stroke="#ef4444" stroke-width="1.5"/>
+      <text x="56" y="774" fill="#ef4444" font-size="11.5" font-weight="700">TRIGGER CONDITION</text>
+      <text x="56" y="796" fill="#cbd5e1" font-size="11">&#x2022; Primary marked Degraded</text>
+      <text x="56" y="818" fill="#94a3b8" font-size="10.5">Automated cutover held at gate</text>
+      
+    </g>
+    <line x1="350" y1="460" x2="383" y2="460" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 2" marker-end="url(#arrowBlue)"/>
+
+    <g transform="translate(0, 0)" filter="url(#dropGlow)">
+      <rect x="383" y="120" width="320" height="740" rx="8" fill="#0c1e38" stroke="#f59e0b" stroke-width="1.5"/>
+      <rect x="399" y="136" width="288" height="32" rx="4" fill="#92400e"/>
+      <text x="543" y="158" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">PHASE 02: KQL GATE</text>
+      <text x="403" y="196" fill="#38bdf8" font-size="14" font-weight="700">02: Replication Lag Pre-Flight</text>
+      <text x="403" y="220" fill="#cbd5e1" font-size="11.5">&#x2022; Queries Log Analytics AzureMetrics table</text>
+<text x="403" y="244" fill="#cbd5e1" font-size="11.5">&#x2022; Interrogates Cosmos DB ReplicationLagSeconds</text>
+<text x="403" y="268" fill="#cbd5e1" font-size="11.5">&#x2022; If lag &gt; 30s: HARD VETO on automated cutover</text>
+<text x="403" y="292" fill="#cbd5e1" font-size="11.5">&#x2022; Waits for write queue catch-up (38.4s -&gt; &lt;5s)</text>
+
+      
+      <rect x="399" y="750" width="288" height="86" rx="6" fill="#0b1329" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="409" y="774" fill="#f59e0b" font-size="11.5" font-weight="700">FAIL-CLOSED VETO</text>
+      <text x="409" y="796" fill="#cbd5e1" font-size="11">&#x2022; Cutover Vetoed if Lag &gt; 30s</text>
+      <text x="409" y="818" fill="#94a3b8" font-size="10.5">Protects financial state from overwrite</text>
+      
+    </g>
+    <line x1="703" y1="460" x2="736" y2="460" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="4 2" marker-end="url(#arrowRed)"/>
+
+    <g transform="translate(0, 0)" filter="url(#dropGlow)">
+      <rect x="736" y="120" width="320" height="740" rx="8" fill="#0c1e38" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="752" y="136" width="288" height="32" rx="4" fill="#0369a1"/>
+      <text x="896" y="158" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">PHASE 03: ROUTE CHECK</text>
+      <text x="756" y="196" fill="#38bdf8" font-size="14" font-weight="700">03: Private DNS Route Assert</text>
+      <text x="756" y="220" fill="#cbd5e1" font-size="11.5">&#x2022; Network Watcher tests Private DNS in UK West</text>
+<text x="756" y="244" fill="#cbd5e1" font-size="11.5">&#x2022; Ensures microservices do not resolve to UK South</text>
+<text x="756" y="268" fill="#cbd5e1" font-size="11.5">&#x2022; Verifies ExpressRoute gateway load is &lt; 50%</text>
+<text x="756" y="292" fill="#cbd5e1" font-size="11.5">&#x2022; Asserts zero asymmetric hairpinning routes</text>
+
+      
+      <rect x="752" y="750" width="288" height="86" rx="6" fill="#0b1329" stroke="#34d399" stroke-width="1.5"/>
+      <text x="762" y="774" fill="#34d399" font-size="11.5" font-weight="700">NETWORK INTEGRITY</text>
+      <text x="762" y="796" fill="#cbd5e1" font-size="11">&#x2022; 100% Symmetric Resolution</text>
+      <text x="762" y="818" fill="#94a3b8" font-size="10.5">Zero cross-region packet loops</text>
+      
+    </g>
+    <line x1="1056" y1="460" x2="1089" y2="460" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 2" marker-end="url(#arrowBlue)"/>
+
+    <g transform="translate(0, 0)" filter="url(#dropGlow)">
+      <rect x="1089" y="120" width="320" height="740" rx="8" fill="#0c1e38" stroke="#34d399" stroke-width="1.5"/>
+      <rect x="1105" y="136" width="288" height="32" rx="4" fill="#065f46"/>
+      <text x="1249" y="158" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">PHASE 04: GOVERNANCE</text>
+      <text x="1109" y="196" fill="#38bdf8" font-size="14" font-weight="700">04: Sovereign Architect Gate</text>
+      <text x="1109" y="220" fill="#cbd5e1" font-size="11.5">&#x2022; Co-worker stages Bicep Front Door origin JSON</text>
+<text x="1109" y="244" fill="#cbd5e1" font-size="11.5">&#x2022; Emits Teams Adaptive Card to DR bridge</text>
+<text x="1109" y="268" fill="#cbd5e1" font-size="11.5">&#x2022; Resilience Architect validates RPO/RTO metrics</text>
+<text x="1109" y="292" fill="#cbd5e1" font-size="11.5">&#x2022; MFA cryptographic sign-off triggers traffic shift</text>
+
+      
+      <rect x="1105" y="750" width="288" height="86" rx="6" fill="#0b1329" stroke="#34d399" stroke-width="1.5"/>
+      <text x="1115" y="774" fill="#34d399" font-size="11.5" font-weight="700">ORDERLY FAILOVER</text>
+      <text x="1115" y="796" fill="#cbd5e1" font-size="11">&#x2022; Zero Split-Brain Outage</text>
+      <text x="1115" y="818" fill="#94a3b8" font-size="10.5">RTO: 110s | Data Loss: 0 bytes</text>
+      
+    </g>
+    
+</svg>
