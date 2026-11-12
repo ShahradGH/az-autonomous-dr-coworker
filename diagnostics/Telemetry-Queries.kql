@@ -1,0 +1,15 @@
+// Pre-Flight DR Cutover Gate: Block failover if Cosmos DB RPO lag > 30s or ExpressRoute drops
+let MaxAllowedLagSeconds = 30.0;
+let ReplicationCheck = AzureMetrics
+| where ResourceProvider == "MICROSOFT.DOCUMENTDB"
+| where MetricName == "ReplicationLatency"
+| where TimeGenerated > ago(3m)
+| summarize MaxLagSeconds = max(Maximum) / 1000.0 by Resource;
+let RouteHealthCheck = AzureDiagnostics
+| where Category == "AzureFirewallNetworkRule" or Category == "ExpressRouteGatewayLogs"
+| where TimeGenerated > ago(3m)
+| summarize AsymmetricDrops = countif(msg_s has "Dropped" or msg_s has "Asymmetric");
+ReplicationCheck
+| extend AsymmetricRouteDrops = toscalar(RouteHealthCheck | project AsymmetricDrops)
+| extend CutoverVerdict = iff(MaxLagSeconds > MaxAllowedLagSeconds or AsymmetricRouteDrops > 0, "VETO_SPLIT_BRAIN_RISK", "STAGE_FOR_ARCHITECT_APPROVAL")
+| project Resource, MaxLagSeconds, AsymmetricRouteDrops, CutoverVerdict
